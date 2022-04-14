@@ -1,0 +1,159 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/home'}
+<div style="display: flex;">
+    <div style="flex: 0vw;"></div>
+    <div class="alert at alert-warning alert-dismissible fade show" style="flex: 95vw;" role="alert">
+		<span class="alert-inner--text">
+			返图添加功能优化中
+		</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div style="flex: 0vw;"></div>
+</div>
+<div class="ui grid">
+    <div class="three wide column">
+        <div class="ui secondary vertical menu">
+            <a class="item" href="/user.php">
+                修改信息
+            </a>
+            <a class="item" href="/user.php/index/p">
+                修改头像
+            </a>
+            <a class="item active" href="/user.php/furry">
+                我提交的毛毛
+            </a>
+            <a class="item" href="/user.php/furry/add">
+                提交毛毛
+            </a>
+        </div>
+    </div>
+    <div class="twelve wide column">
+        <form id="formx" method="post" action="/user.php/furry/reset_c">
+            <input type="hidden" value="{$furry.id}" name="id">
+            <div class="field">
+                <label>展示图片</label>
+                <br>
+                <img width="240px" src="/static/images/furry/{$furry.name}.jpg">
+            </div>
+            <div class="form-group">
+                <label>毛毛名称</label>
+                <input type="text" class="form-control form-control-alternative" value="{$furry.name}" disabled placeholder="毛毛的设定名称">
+            </div>
+            <div class="form-group">
+                <label>毛毛描述</label>
+                <div id="des-markdown">{php}echo $furry['describe'];{/php}</div>
+                <textarea name="describe" id="describe" style="display: none;">{$furry.describe}</textarea>
+            </div>
+            <div class="form-group">
+                <label>捕捉注意</label>
+                <div id="rinfo-markdown">{php}echo $furry['ruainfo'];{/php}</div>
+                <textarea name="ruainfo" id="ruainfo" style="display: none;">{$furry.ruainfo}</textarea>
+            </div>
+            <div class="form-group">
+                <label>毛毛物种</label>
+                <input type="text" class="form-control form-control-alternative" value="{$furry.animal}" name="animal" placeholder="毛毛的设定物种">
+            </div>
+            <div class="form-group">
+                <label>毛毛性别</label>
+                <select class="form-control form-control-alternative" data-trigger name="gender">
+                    <option disabled>毛毛的设定性别 | 请选择</option>
+                    <option value="-1" {if $furry['gender']==-1}selected{/if}>未知 </option>
+                    <option value="1" {if $furry['gender']==1}selected{/if}>雄 </option>
+                    <option value="0" {if $furry['gender']==0}selected{/if}>雌 </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>是否有毛装</label>
+                <select class="form-control form-control-alternative" data-trigger name="has_fur">
+                    <option disabled>毛毛是否拥有自己的毛装 | 请选择</option>
+                    <option value="-1" {if $furry['has_fur']==-1}selected{/if}>未知 </option>
+                    <option value="1" {if $furry['has_fur']==-1}selected{/if}>是 </option>
+                    <option value="0" {if $furry['has_fur']==-1}selected{/if}>否 </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>B站地址</label>
+                <input type="text" value="{$furry.bilibili_account}" class="form-control form-control-alternative" name="bilibili_account" placeholder="毛毛的完整空间地址 | 没有写'#' | 例如：https://space.bilibili.com/xxxxxx">
+            </div>
+            <div class="form-group">
+                <label>QQ</label>
+                <input type="number" value="{$furry.qq}" class="form-control form-control-alternative" name="qq" placeholder="毛毛的QQ号码 | 没有写0 | 只需要写号码">
+            </div>
+            <div class="form-group">
+                <label>微博地址</label>
+                <input type="text" value="{$furry.weibo}" class="form-control form-control-alternative" name="weibo" placeholder="毛毛的完整微博空间地址 | 没有写'#' | 例如：https://weibo.com/x/xxxxxxx">
+            </div>
+            <div class="form-group">
+                <label>推特</label>
+                <input type="text" value="{$furry.twitter}" class="form-control form-control-alternative" name="twitter" placeholder="毛毛的TwitterID | 没有写'#' | 是https://twitter.com/后面的东西">
+            </div>
+            <div class="form-group">
+                <label>B站视频AV/BV号</label>
+                <input type="text" value="{$furry.bilibili_video}" class="form-control form-control-alternative" name="bilibili_video" placeholder="毛毛B站视频BV号码 | 没有写'#' | 任何一个都行">
+            </div>
+            <div class="form-group">
+                <label>来源</label>
+                <input type="text" value="{$furry.source}" class="form-control form-control-alternative" name="source" placeholder="资料收集来源">
+            </div>
+            <div class="form-group">
+                <label>资料卡主题颜色</label>
+                <input type="color" value="{$furry.text_color}" style="width: 60px;" class="form-control form-control-alternative" name="text_color" placeholder="资料卡的字体颜色 | 为了防止字体颜色和背景一样而看不见">
+            </div>
+            <button class="btn-secondary btn" type="button" onclick="obj.validate()">提交</button>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.ui.dropdown')
+        .dropdown()
+    ;
+    var obj;
+    vaptcha({
+        vid: '{$head_vaptcha_client_token}',
+        mode: 'invisible',
+        scene: 0,
+        area: 'auto',
+    }).then(function (vaptchaObj) {
+        //将VAPTCHA验证实例保存到局部变量中
+        obj = vaptchaObj;
+
+        // 渲染验证组件
+        vaptchaObj.render();
+
+        // 验证成功进行后续操作
+        vaptchaObj.listen('pass', function () {
+            var serverToken = vaptchaObj.getServerToken();
+            if (serverToken.token === '') {
+                vaptchaObj.reset();
+            } else {
+                document.getElementById('formx').submit();
+            }
+        })
+    })
+
+    const E = window.wangEditor
+    const editor = new E('#des-markdown')
+    const $text1 = $('#describe')
+    editor.config.onchange = function (html) {
+        // 第二步，监控变化，同步更新到 textarea
+        $text1.val(html)
+    }
+    editor.config.placeholder = '毛毛的描述 | 可以是各种东西'
+    editor.create()
+    // 第一步，初始化 textarea 的值
+    $text1.val(filterXSS(editor.txt.html()))
+
+    const editor2 = new E('#rinfo-markdown')
+    const $text2 = $('#ruainfo')
+    editor2.config.onchange = function (html) {
+        // 第二步，监控变化，同步更新到 textarea
+        $text2.val(html)
+    }
+    editor2.config.placeholder = '捕捉的注意事项 | 可以是各种东西'
+    editor2.create()
+    // 第一步，初始化 textarea 的值
+    $text2.val(filterXSS(editor2.txt.html()))
+</script>

@@ -1,0 +1,226 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/admin'}
+        <div class="ui grid">
+            <div class="three wide column">
+                <div class="ui secondary vertical menu">
+                    <a class="item" href="/admin.php/photo">
+                        返图列表
+                    </a>
+                    <a class="item" href="/admin.php/photo/add">
+                        新增返图
+                    </a>
+                </div>
+            </div>
+            <div class="twelve wide column">
+                <form method="post" action="/admin.php/photo/add_c" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>标题</label>
+                        <input type="text" class="form-control form-control-alternative" name="title" placeholder="文本">
+                    </div>
+                    <div class="form-group">
+                        <label>内容</label>
+                        <div id="con-markdown"></div>
+                        <textarea name="content" id="content" style="display: none;"></textarea>
+                    </div>
+                    <div class="field">
+                        <label>图片1</label>
+                        <br>
+                        <div class="fileinput fileinput-new text-center mr-5" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail img-raised">
+                                <img src="/static/images/image_placeholder.jpg" alt>
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+                            <div>
+                                <span class="btn btn-raised btn-round btn-primary btn-simple btn-file">
+                                   <span class="fileinput-new">选择图片</span>
+                                   <span class="fileinput-exists">修改</span>
+                                   <input type="file" name="img1" />
+                                </span>
+                                <a href="#" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput">
+                                    <i class="fa fa-times"></i> 取消
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>图片2</label>
+                        <br>
+                        <div class="fileinput fileinput-new text-center mr-5" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail img-raised">
+                                <img src="/static/images/image_placeholder.jpg" alt>
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+                            <div>
+                                <span class="btn btn-raised btn-round btn-primary btn-simple btn-file">
+                                   <span class="fileinput-new">选择图片</span>
+                                   <span class="fileinput-exists">修改</span>
+                                   <input type="file" name="img2" />
+                                </span>
+                                <a href="#" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput">
+                                    <i class="fa fa-times"></i> 取消
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>图片3</label>
+                        <br>
+                        <div class="fileinput fileinput-new text-center mr-5" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail img-raised">
+                                <img src="/static/images/image_placeholder.jpg" alt>
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+                            <div>
+                                <span class="btn btn-raised btn-round btn-primary btn-simple btn-file">
+                                   <span class="fileinput-new">选择图片</span>
+                                   <span class="fileinput-exists">修改</span>
+                                   <input type="file" name="img3" />
+                                </span>
+                                <a href="#" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput">
+                                    <i class="fa fa-times"></i> 取消
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>图片4</label>
+                        <br>
+                        <div class="fileinput fileinput-new text-center mr-5" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail img-raised">
+                                <img src="/static/images/image_placeholder.jpg" alt>
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+                            <div>
+                                <span class="btn btn-raised btn-round btn-primary btn-simple btn-file">
+                                   <span class="fileinput-new">选择图片</span>
+                                   <span class="fileinput-exists">修改</span>
+                                   <input type="file" name="img4" />
+                                </span>
+                                <a href="#" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput">
+                                    <i class="fa fa-times"></i> 取消
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>图片5</label>
+                        <br>
+                        <div class="fileinput fileinput-new text-center mr-5" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail img-raised">
+                                <img src="/static/images/image_placeholder.jpg" alt>
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+                            <div>
+                                <span class="btn btn-raised btn-round btn-primary btn-simple btn-file">
+                                   <span class="fileinput-new">选择图片</span>
+                                   <span class="fileinput-exists">修改</span>
+                                   <input type="file" name="img5" />
+                                </span>
+                                <a href="#" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput">
+                                    <i class="fa fa-times"></i> 取消
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>图片6</label>
+                        <br>
+                        <div class="fileinput fileinput-new text-center mr-5" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail img-raised">
+                                <img src="/static/images/image_placeholder.jpg" alt>
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+                            <div>
+                                <span class="btn btn-raised btn-round btn-primary btn-simple btn-file">
+                                   <span class="fileinput-new">选择图片</span>
+                                   <span class="fileinput-exists">修改</span>
+                                   <input type="file" name="img6" />
+                                </span>
+                                <a href="#" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput">
+                                    <i class="fa fa-times"></i> 取消
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>图片7</label>
+                        <br>
+                        <div class="fileinput fileinput-new text-center mr-5" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail img-raised">
+                                <img src="/static/images/image_placeholder.jpg" alt>
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+                            <div>
+                                <span class="btn btn-raised btn-round btn-primary btn-simple btn-file">
+                                   <span class="fileinput-new">选择图片</span>
+                                   <span class="fileinput-exists">修改</span>
+                                   <input type="file" name="img7" />
+                                </span>
+                                <a href="#" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput">
+                                    <i class="fa fa-times"></i> 取消
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>图片8</label>
+                        <br>
+                        <div class="fileinput fileinput-new text-center mr-5" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail img-raised">
+                                <img src="/static/images/image_placeholder.jpg" alt>
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+                            <div>
+                                <span class="btn btn-raised btn-round btn-primary btn-simple btn-file">
+                                   <span class="fileinput-new">选择图片</span>
+                                   <span class="fileinput-exists">修改</span>
+                                   <input type="file" name="img8" />
+                                </span>
+                                <a href="#" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput">
+                                    <i class="fa fa-times"></i> 取消
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>图片9</label>
+                        <br>
+                        <div class="fileinput fileinput-new text-center mr-5" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail img-raised">
+                                <img src="/static/images/image_placeholder.jpg" alt>
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+                            <div>
+                                <span class="btn btn-raised btn-round btn-primary btn-simple btn-file">
+                                   <span class="fileinput-new">选择图片</span>
+                                   <span class="fileinput-exists">修改</span>
+                                   <input type="file" name="img9" />
+                                </span>
+                                <a href="#" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput">
+                                    <i class="fa fa-times"></i> 取消
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>来源</label>
+                        <input type="text" class="form-control form-control-alternative" name="source" placeholder="填写内容">
+                    </div>
+                    <button class="ui button" type="submit">提交</button>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript">
+            const E = window.wangEditor
+            const editor = new E('#con-markdown')
+            const $text1 = $('#content')
+            editor.config.onchange = function (html) {
+                // 第二步，监控变化，同步更新到 textarea
+                $text1.val(html)
+            }
+            editor.config.placeholder = '内容 | 可以是各种东西'
+            editor.create()
+            // 第一步，初始化 textarea 的值
+            $text1.val(filterXSS(editor.txt.html()))
+        </script>

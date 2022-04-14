@@ -1,0 +1,239 @@
+<!--电脑版导航-->
+<div id="top" class="overlay hidden-xs hidden-sm" style="position: sticky;position: -webkit-sticky;top: 0px;width: 100%;z-index:6;background: #fff;-webkit-box-shadow: 0 2px 10px 0 rgb(0 0 0 / 5%) !important;">
+    <div class="ui secondary menu">
+        <div class="header item">
+            <img style="width: 32px;height: 32px;" src="{$head_siteIcon}">
+            {$head_siteTitle}
+        </div>
+        <a class="item" href="/">
+            首页
+        </a>
+        <a class="item" href="//docs.huiwiki.icu" target="_blank">
+            API文档
+        </a>
+        <a class="item" href="/about">
+            关于
+        </a>
+        <a class="item" href="/thankyou/yijian">
+            意见
+        </a>
+        {if $head_afdianx}
+            <a class="item" href="/thankyou/">
+                感谢
+            </a>
+        {/if}
+        <li class="item">
+            <a class="nav-link nav-link-icon" href="//wpa.qq.com/msgrd?v=3&uin=3599238808&site=qq&menu=yes" target="_blank">
+                <i class="fa fa-qq" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="item">
+            <a class="nav-link nav-link-icon" href="//twitter.com/yograyfox" target="_blank">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+        </li>
+        <div class="right menu">
+            <div class="item form-group" style="width: 300px;">
+                <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+						<span class="input-group-text">
+							<i class="ni ni-zoom-split-in"></i>
+						</span>
+                    </div>
+                    <input id="se-key0" class="form-control form-control-alternative" name="key" placeholder="输入名称或种类来搜索毛毛" type="text">
+                    <button type="button" onclick="search0()" class="btn btn-secondary" style="width: 70px">提交</button>
+                </div>
+            </div>
+            <a class="ui item" href="/app.php/ddu" target="_self">个性化设置</a>
+            {if ($head_login)}
+                {php}
+                    $auther = Db::table('user_list')->where('id',$head_login)->find();
+                    $auther_baccount = $auther['baccount'];
+                    $auther_disname = $auther['displayname'];
+                {/php}
+                <div class="ui link item dropdown-toggle" id="homeNavDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="btn-group">
+                        <a class="text">{$auther_disname}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        <div class="dropdown-menu" aria-labelledby="homeNavDropdown">
+                            <a class="dropdown-item" onclick="window.open('/info/user?id={$head_userId}','_self')">个人主页</a>
+                            <a class="dropdown-item" onclick="window.open('/user.php','_self')">个人中心</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" onclick="window.open('/user.php/login/out','_self')">退出登录</a>
+                        </div>
+                    </div>
+                </div>
+            {else /}
+                <div class="ui link item dropdown-toggle" id="tempUserNavDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="btn-group">
+                        <a class="text">临时ID：{$head_tempUser}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" onclick="swal.fire('{$head_tempUser}','请手动复制','info');">复制ID码</a>
+                            <a class="dropdown-item" onclick="cin_code()">输入ID码</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-red">提示：当前版本的网站临时账号只能提交意见</a>
+                        </div>
+                    </div>
+                </div>
+                <a class="ui item" href="/user.php/login">登录</a>
+                <a class="ui item" href="/user.php/register">注册</a>
+            {/if}
+        </div>
+    </div>
+</div>
+
+<!--        手机版导航-->
+<div id="mobiletop" class="overlay hidden-md hidden-lg" style="position: sticky;position: -webkit-sticky;top: 0px;width: 100%;z-index:6;background: #fff;{if isset($oldtheme)}{if (!$oldtheme)}-webkit-box-shadow: 0 2px 10px 0 rgb(0 0 0 / 5%) !important;{/if}{/if}">
+    <div class="ui secondary menu">
+        <div class="header item">
+            <img style="width: 32px;height: 32px;" src="{$head_siteIcon}">
+            {$head_siteTitle}
+        </div>
+        <div class="right menu">
+            <a class="ui item" onclick="$('#mocaaa').sidebar('setting', 'transition', 'overlay').sidebar('toggle');">
+                <i class="ni ni-align-left-2"></i>
+            </a>
+        </div>
+    </div>
+</div>
+<!--        手机版导航-侧边栏-->
+<div class="ui sidebar inverted vertical menu bg-secondary" style="background: #f4f5f7 !important;" id="mocaaa">
+    <a class="item text-default" href="/">
+        首页
+    </a>
+    <a class="item text-default" href="//docs.huiwiki.icu" target="_blank">
+        API文档
+    </a>
+    <a class="item text-default" href="/about/">
+        关于
+    </a>
+    <a class="item text-default" href="/thankyou/yijian">
+        意见
+    </a>
+    {if $head_afdianx}
+    <a class="item text-default" href="/thankyou/">
+        感谢
+    </a>
+    {/if}
+    <li class="item">
+        <a class="nav-link nav-link-icon text-default" href="//wpa.qq.com/msgrd?v=3&uin=3599238808&site=qq&menu=yes" target="_blank">
+            <i class="fa fa-qq" aria-hidden="true"></i>
+        </a>
+    </li>
+    <li class="item">
+        <a class="nav-link nav-link-icon text-default" href="//twitter.com/yograyfox" target="_blank">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+        </a>
+    </li>
+    <a class="ui item text-default" href="/system.php/ddu" target="_self">个性化设置</a>
+    <div class="item form-group" style="width: 230px">
+        <form>
+            <input id="se-key" class="form-control form-control-alternative" style="width: 230px" name="key" placeholder="输入名称或种类来搜索毛毛" type="text">
+            <button type="button" onclick="search1()" class="btn btn-secondary" style="width: 230px">提交</button>
+        </form>
+    </div>
+    <hr style="width: 100%">
+    {if ($head_login)}
+        {php}
+            $auther = Db::table('user_list')->where('id',$head_login)->find();
+            $auther_baccount = $auther['baccount'];
+            $auther_disname = $auther['displayname'];
+        {/php}
+        <a class="text display-4">{$auther_disname}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a class="ui item text-default" onclick="window.open('/info/user?id={$head_userId}','_self')">个人主页</a>
+        <a class="ui item text-default" onclick="window.open('/user.php','_self')">个人中心</a>
+        <div class="dropdown-divider" style="width: 100%"></div>
+        <a class="ui item text-default" onclick="window.open('/user.php/login/out','_self')">退出登录</a>
+    {else /}
+        <a class="text display-4">临时ID：{$head_tempUser}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a class="ui item text-default" onclick="swal.fire('{$head_tempUser}','请手动复制','info');">复制ID码</a>
+        <a class="ui item text-default" onclick="cin_code()">输入ID码</a>
+        <div class="dropdown-divider" style="width: 100%"></div>
+        <a class="ui item text-red">提示：当前版本的网站临时账号只能提交意见</a>
+        <hr style="width: 100%">
+        <a class="ui item text-default" onclick="window.open('/user.php/login','_self')">登录</a>
+        <a class="ui item text-default" onclick="window.open('/user.php/register','_self')">注册</a>
+    {/if}
+</div>
+<script type="text/javascript">
+    function search1(){
+        var key = document.getElementById('se-key').value;
+        window.open(`/index/search?key=${key}`,'_self');
+    }
+    function search0(){
+        var key = document.getElementById('se-key0').value;
+        window.open(`/index/search?key=${key}`,'_self');
+    }
+    function cin_code(){
+        Swal.fire({
+            title: '请输入号码，为t开头',
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: '提交代码',
+            cancelButtonText: '取消',
+            showLoaderOnConfirm: true,
+            preConfirm: (login) => {
+                return fetch(`/user.php/login/temp_rg?l=${login}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText)
+                        }
+                        return response.text()
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(
+                            `Request failed: ${error}`
+                        )
+                    })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if(result.value === 'ok') location.reload();
+            else if(result.value === 'short'){
+                swal.fire(
+                    '警告',
+                    '请输入正确的代码',
+                    'warning'
+                )
+            }
+        })
+    }
+</script>
+{if !$head_login}
+    <div id="bxa">
+        <style>
+            #ofBar{
+                background: #fff;
+                z-index: 999999999;
+                font-size: 16px;
+                color: #333;
+                padding: 16px 40px;
+                font-weight: 400;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: fixed;
+                top: 60px;
+                width: 80%;
+                border-radius: 8px;
+                left: 0;
+                right: 0;
+                margin-left: auto;
+                margin-right: auto;
+                box-shadow: 0 13px 27px -5px rgb(50 50 93 / 25%), 0 8px 16px -8px rgb(0 0 0 / 30%), 0 -6px 16px -6px rgb(0 0 0 / 3%);
+            }
+        </style>
+        <div id="ofBar">
+            <div id="ofBar-content">
+                <i class="ni ni-notification-70"></i>
+                <b>注意！</b>你当前是<b>临时账号</b>，账号信息<b>容易丢失</b>且大部分账号功能<b>无法正常使用</b>！
+            </div>
+            <div id="ofBar-right">
+                <a onclick="document.getElementById('bxa').remove()">×</a>
+            </div>
+        </div>
+    </div>
+{/if}
+<br>

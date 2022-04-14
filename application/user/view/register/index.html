@@ -1,0 +1,304 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+<div>
+    <section class="section section-shaped section-lg">
+        <div class="shape shape-style-1 bg-gradient-default">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="container pt-lg-7">
+            <div class="row justify-content-center">
+                <div class="col-lg-5">
+                    <div class="card bg-secondary shadow border-0">
+                        <div class="card-body px-lg-5 py-lg-5">
+                            <div class="text-center text-muted mb-4">
+                                注册到{$head_siteTitle}
+                            </div>
+                            <form role="form">
+                                <div class="form-group">
+                                    <div class="input-group input-group-alternative mb-3">
+                                        <div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="ni ni-hat-3"></i>
+											</span>
+                                        </div>
+                                        <input class="form-control form-control-alternative" id="username" placeholder="用户名 | 至少3位 | 最长9位" type="text" maxlength="9">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group input-group-alternative mb-3">
+                                        <div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="ni ni-tag"></i>
+											</span>
+                                        </div>
+                                        <input class="form-control form-control-alternative" id="displayname" placeholder="显示名称 | 至少1位 | 最长12位" maxlength="12" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group input-group-alternative mb-3">
+                                        <div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="ni ni-world-2"></i>
+											</span>
+                                        </div>
+                                        <input class="form-control form-control-alternative" id="bacc" placeholder="B站/个人主页地址 | 必写 | 例如: https://xxxxx.xxx/" type="url">
+                                    </div>
+                                </div>
+                                <div class="form-group focused">
+                                    <div class="input-group input-group-alternative">
+                                        <textarea class="form-control form-control-alternative" id="des" rows="4" placeholder="描述 | 最长64位" maxlength="64"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group focused">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="ni ni-lock-circle-open"></i>
+											</span>
+                                        </div>
+                                        <input class="form-control form-control-alternative" onchange="cp_pass()" id="password" placeholder="密码 | 至少6位 | 最长16位" maxlength="16" type="password">
+                                    </div>
+                                </div>
+                                <div class="form-group focused">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="ni ni-user-run"></i>
+											</span>
+                                        </div>
+                                        <select class="form-control" data-trigger id="gender">
+                                            <option disabled selected>性别 | 请选择</option>
+                                            <option value="1">雄</option>
+                                            <option value="0">雌</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group focused">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="ni ni-badge"></i>
+											</span>
+                                        </div>
+                                        <select class="form-control" data-trigger id="is_furry">
+                                            <option disabled selected>状态类型 | 请选择</option>
+                                            <option value="1">已兽化</option>
+                                            <option value="0">正常</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="text-muted font-italic">
+                                    <small>密码强度: <span id="password_show">
+											<span class='text-gray font-weight-700'>密码过短</span>
+										</span>
+                                    </small>
+                                </div>
+                                <br>
+                                <div id="VAPTCHAContainer"></div>
+                                <div class="row my-4">
+                                    <div class="col-12">
+                                        <div class="custom-control custom-control-alternative custom-checkbox">
+                                            <input class="custom-control-input" id="checkRegister" type="checkbox">
+                                            <label class="custom-control-label" for="checkRegister">
+												<span>我同意 <a href="#">隐私协议</a>
+												</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-primary mt-4" onclick="sign()">创建账户</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <a onclick="history.back()" class="text-light">
+                                <small>返回上一页</small>
+                            </a>
+                        </div>
+                        <div class="col-6 text-right">
+                            <a href="/user.php/login" target="_self" class="text-light">
+                                <small>有账户？登录</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript">
+        var pass_num= 0;
+        var obj;
+        var ipxa = false;
+        vaptcha({
+            vid: '{$head_vaptcha_client_token}',
+            mode: 'click',
+            scene: 0,
+            container: '#VAPTCHAContainer',
+            area: 'auto',
+        }).then(function (vaptchaObj) {
+            obj = vaptchaObj;
+            vaptchaObj.render();
+            vaptchaObj.listen('pass', function () {
+                var serverToken = vaptchaObj.getServerToken();
+                if (serverToken.token === '') {
+                    vaptchaObj.reset();
+                    ipxa = false;
+                } else {
+                    ipxa = true;
+                }
+            })
+        })
+
+        function cp_pass(){
+            // 密码强度验证
+            var value = document.getElementById('password').value;
+            pass_num = 0;
+            if (value.length < 6) {
+                document.getElementById('password_show').innerHTML = "<span class='text-gray font-weight-700'>密码过短</span>";
+                return;
+            }
+            if (/\d/.test(value)) pass_num++;
+            if (/[a-z]/.test(value)) pass_num++;
+            if (/[A-Z]/.test(value)) pass_num++;
+            if (/\W/.test(value)) pass_num++;
+            switch (pass_num){
+                case 1:
+                    document.getElementById('password_show').innerHTML = "<span class='text-default font-weight-700'>太简单了</span>";
+                    break;
+                case 2:
+                    document.getElementById('password_show').innerHTML = "<span class='text-green font-weight-700'>普通</span>";
+                    break;
+                case 3:
+                    document.getElementById('password_show').innerHTML = "<span class='text-red font-weight-700'>强</span>";
+                    break;
+                case 4:
+                    document.getElementById('password_show').innerHTML = "<span class='text-danger font-weight-700'>超强</span>";
+                    break;
+            }
+        }
+
+        function sign() {
+            // 注册逻辑
+            if (!document.getElementById('checkRegister').checked) {
+                swal.fire(
+                    '警告',
+                    '请同意许可协议',
+                    'warning'
+                );
+                obj.reset();
+            }else if(pass_num < 2){
+                swal.fire(
+                    '警告',
+                    '密码强度太小',
+                    'warning'
+                );
+                obj.reset();
+            }else if(document.getElementById('username').value.length < 3){
+                swal.fire(
+                    '警告',
+                    '用户名太短',
+                    'warning'
+                );
+                obj.reset();
+            }else if(document.getElementById('displayname').value.length < 1){
+                swal.fire(
+                    '警告',
+                    '显示名称不能为空',
+                    'warning'
+                );
+                obj.reset();
+            }else{
+                if (!ipxa) {
+                    swal.fire(
+                        '警告',
+                        '请先完成验证码',
+                        'warning'
+                    )
+                } else {
+                    var username = document.getElementById("username").value;
+                    var password = document.getElementById("password").value;
+                    var displayname = document.getElementById("displayname").value;
+                    var des = document.getElementById("des").value;
+                    var is_furry = document.getElementById("is_furry").value;
+                    var gender = document.getElementById("gender").value;
+                    var bacc = document.getElementById("bacc").value;
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                            if (reg_ajax(this.responseText) == "yes") {
+                                swal.fire(
+                                    '成功',
+                                    '注册成功',
+                                    'success'
+                                ).then(() => {
+                                    location.replace('/user.php/login');
+                                });
+                            } else if (reg_ajax(this.responseText) == "has") {
+                                swal.fire(
+                                    '错误',
+                                    '用户名已存在',
+                                    'error'
+                                )
+                                obj.reset();
+                                ipxa = false;
+                            } else if (reg_ajax(this.responseText) == "dc0") {
+                                swal.fire(
+                                    '错误',
+                                    '用户名包含禁止的字符',
+                                    'error'
+                                )
+                                obj.reset();
+                                ipxa = false;
+                            } else if (reg_ajax(this.responseText) == "dc1") {
+                                swal.fire(
+                                    '错误',
+                                    '密码包含禁止的字符',
+                                    'error'
+                                )
+                                obj.reset();
+                                ipxa = false;
+                            } else if (reg_ajax(this.responseText) == "dc2") {
+                                swal.fire(
+                                    '错误',
+                                    '显示名称包含禁止的字符',
+                                    'error'
+                                )
+                                obj.reset();
+                                ipxa = false;
+                            } else if (reg_ajax(this.responseText) == "notpub") {
+                                swal.fire(
+                                    '错误',
+                                    '当前没有开放注册',
+                                    'error'
+                                )
+                                obj.reset();
+                                ipxa = false;
+                            }
+                        } else {
+                            swal.fire(
+                                '错误',
+                                '进行ajax请求时出错',
+                                'error'
+                            )
+                            obj.reset();
+                            ipxa = false;
+                        }
+                    };
+                    xhttp.open("POST", "/user.php/register/sign/", true);
+                    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhttp.send(`username=${username}&displayname=${displayname}&des=${des}&is_furry=${is_furry}&gender=${gender}&bacc=${bacc}&password=${password}`);
+                }
+            }
+        }
+    </script>
+</div>

@@ -1,0 +1,134 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/home'}
+{php}
+    $auther = Db::table('user_list')->where('id',$furry['auther_id'])->find();
+    $auther_baccount = $auther['baccount'];
+    $auther_username = $auther['username'];
+    $auther_disname = $auther['displayname'];
+{/php}
+<style>
+    .bgcc{
+        background: url('/static/images/furry/{$furry.name}.jpg');
+        background-size: cover;
+    }
+</style>
+<div class="bgcc">
+    <br>
+    <div class="ui grid">
+        <div class="one wide column"></div>
+        <div class="four wide column">
+            <nav aria-label="breadcrumb" role="navigation">
+                <ol class="breadcrumb" style="background: white;">
+                    <li class="breadcrumb-item">
+                        <a href="/">博物馆</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/lists/furry">毛毛资料卡</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{$furry.name}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <div class="ui grid">
+        <div class="two wide column"></div>
+        <div class="twelve wide column">
+            <div class="ui huge header" style="color: {$furry.text_color};">
+                <div class="ui horizontal label animal-show">{$furry.animal}</div>
+                <div class="ui red horizontal label">
+                    <i class="fa fa-id-card-o"></i>
+                    {if($furry.has_fur==1)}有毛装
+                    {else /}虚拟UP
+                    {/if}
+                </div>
+                {$furry.name}
+                <a class="ui gray circular label">
+                    <i class="fa fa-user-o"></i>
+                    {if($furry.gender==1)}雄
+                    {elseif($furry.gender==0)}雌
+                    {elseif($furry.gender==-1)}未知
+                    {/if}
+                </a>
+            </div>
+            <h4 class="ui horizontal divider header" style="color: {$furry.text_color};">
+                <i class="ni ni-tag"></i>
+                描述
+            </h4>
+            <span style="color: {$furry.text_color};">{php}echo $furry['describe'];{/php}</span>
+            <h4 class="ui horizontal divider header" style="color: {$furry.text_color};">
+                <i class="ni ni-bell-55"></i>
+                捕捉注意
+            </h4>
+            <span style="color: {$furry.text_color};">{php}echo $furry['ruainfo'];{/php}</span>
+            <h4 class="ui horizontal divider header" style="color: {$furry.text_color};">
+                <i class="ni ni-mobile-button"></i>
+                联系方式
+            </h4>
+            {if ($furry.bilibili_account != '#')}
+                <a class="ui animated button primary inverted" tabindex="0" href="{$furry.bilibili_account}">
+                    <div class="visible content">
+                        <i class="fa fa-youtube-play"></i>
+                        &nbsp;B站&nbsp;
+                    </div>
+                    <div class="hidden content">
+                        点击跳转
+                    </div>
+                </a>
+            {/if}
+            {if ($furry.qq != 0)}
+                <a class="ui animated button violet inverted" tabindex="0" href="http://wpa.qq.com/msgrd?v=3&uin={$furry.qq}&site=qq&menu=yes" target="_blank">
+                    <div class="visible content">
+                        <i class="fa fa-qq"></i>
+                        &nbsp;QQ&nbsp;
+                    </div>
+                    <div class="hidden content">
+                        点击跳转
+                    </div>
+                </a>
+            {/if}
+            {if ($furry.weibo != '#')}
+                <a class="ui animated button orange inverted" tabindex="0" href="{$furry.weibo}">
+                    <div class="visible content">
+                        <i class="fa fa-weibo"></i>
+                        &nbsp;&nbsp;微博&nbsp;&nbsp;
+                    </div>
+                    <div class="hidden content">
+                        点击跳转微博
+                    </div>
+                </a>
+            {/if}
+            {if ($furry.twitter != '#')}
+                <a class="ui animated button blue inverted " tabindex="0" href="https://twitter.com/{$furry.twitter}">
+                    <div class="visible content">
+                        <i class="fa fa-twitter"></i>
+                        &nbsp;&nbsp;Twitter&nbsp;&nbsp;
+                    </div>
+                    <div class="hidden content">
+                        点击跳转推特
+                    </div>
+                </a>
+            {/if}
+            <h4 class="ui horizontal divider header" style="color: {$furry.text_color};">
+                <i class="ni ni-ruler-pencil"></i>
+                数据收集
+            </h4>
+            <a class="ui basic image label user-show" href="/info/user?id={$furry.auther_id}">
+                <img src="/static/images/user/{$auther_username}.jpg" width="16px" height="16px">
+                {$auther_disname}
+            </a>
+            {if ($furry.bilibili_video != '#')}
+                <h4 class="ui horizontal divider header" style="color: {$furry.text_color};">
+                    <i class="ni ni-camera-compact"></i>
+                    推荐视频
+                </h4>
+                <div style="display: flex;justify-content: center;align-items: center;">
+                    <iframe src="https://player.bilibili.com/player.html?bvid={$furry.bilibili_video}&page=1" width="500vw" height="400vh" border="0" framespacing="0" allowfullscreen> </iframe>
+                </div>
+            {/if}
+            <br>
+            <br>
+        </div>
+    </div>
+</div>
+{include file='static@page/footer'}

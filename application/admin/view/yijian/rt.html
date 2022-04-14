@@ -1,0 +1,45 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/admin'}
+<div class="ui grid">
+    <div class="three wide column">
+        <div class="ui secondary vertical menu">
+            <a class="item" href="/admin.php/yijian">
+                意见列表
+            </a>
+        </div>
+    </div>
+    <div class="twelve wide column">
+        <form method="post" action="/admin.php/yijian/rt_c">
+            <input type="hidden" value="{$yijian.id}" name="id">
+            <div class="form-group">
+                <label>标题</label>
+                <input type="text" value="{$yijian.title}" disabled name="title" class="form-control form-control-alternative" placeholder="标题">
+            </div>
+            <div class="form-group">
+                <label>内容</label>
+                <textarea name="content" rows="4" class="form-control form-control-alternative" placeholder="内容" disabled>{$yijian.content}</textarea>
+            </div>
+            <div class="form-group">
+                <label>回复内容</label>
+                <textarea name="return_info" rows="4" class="form-control form-control-alternative" placeholder="回复内容">{$yijian.return_info}</textarea>
+            </div>
+            <div class="form-group">
+                <label>状态</label>
+                <select class="form-control form-control-alternative" data-trigger name="state">
+                    <option disabled selected>选择类型</option>
+                    <option value="0">未回复</option>
+                    <option value="1">已记录</option>
+                    <option value="2">考虑中</option>
+                    <option value="3">不采用</option>
+                </select>
+            </div>
+            <button class="btn btn-secondary" type="submit">提交</button>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.ui.dropdown')
+        .dropdown()
+    ;
+</script>

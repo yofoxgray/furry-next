@@ -1,0 +1,62 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/home'}
+{if !empty($photo_list)}
+    <div style="display: flex;">
+        <div style="flex: 0vw;"></div>
+        <h2 style="flex: 95vw;" id="photo-list">返图列表</h2>
+    </div>
+    <div style="height: 18px;"></div>
+    <div style="display: flex;">
+        <div style="flex: 0vw;"></div>
+        <div class="ui link cards" style="flex: 94vw;">
+            {volist name='photo_list' id='vo'}
+                {php}
+                    $auther = Db::table('user_list')->where('id',$vo['auther_id'])->find();
+                    $auther_username = $auther['username'];
+                    $auther_disname = $auther['displayname'];
+                {/php}
+                <div class="card card-show" onclick="javascript:window.open('/info/photo?id={$vo.id}','_self')">
+                    <div class="image">
+                        <img src="/static/images/photo/{$vo.title}/img1.jpg" loading="lazy">
+                    </div>
+                    <div class="content">
+                        <div class="header">
+                            {$vo.title}
+                        </div>
+                        <div class="meta">
+                            <a>来源：{$vo.source}</a>
+                        </div>
+                        <div class="description">
+                            {php}
+                                if(mb_strlen($vo['content']) > 18) echo htmlentities(mb_substr($vo['content'],0,18)).'...';
+                                else echo htmlentities($vo['content']);
+                            {/php}
+                        </div>
+                    </div>
+                    <div class="extra content">
+                        <a class="ui basic image label" href="/info/user?id={$vo.auther_id}">
+                            <img src="/static/images/user/{$auther_username}.jpg" width="16px" height="16px">
+                            {$auther_disname}
+                        </a>
+                    </div>
+                </div>
+            {/volist}
+        </div>
+    </div>
+    <br>
+    {php}echo $photo_list->render();{/php}
+{else /}
+    <div class="info">
+        <div class="icon icon-lg icon-shape icon-shape-primary shadow rounded-circle">
+            <i class="ni ni-settings-gear-65"></i>
+        </div>
+        <h6 class="info-title text-uppercase text-primary">Sorry！没有返图符合条件！</h6>
+        <p class="description opacity-8">我也在努力扩充数据库，但是一个人的力量是不够的，所以 <a href="/user.php/register">注册一个账户</a>或者<a href="/user.php/login">登录账户</a> 帮助我们扩充吧</p>
+        <a href="/" class="text-primary">回到首页
+            <i class="ni ni-bold-right text-primary"></i>
+        </a>
+    </div>
+{/if}
+<br>
+{include file='static@page/footer'}
