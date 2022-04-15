@@ -1,0 +1,327 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/home'}
+<div>
+    {foreach $notice_list as $key=>$vo }
+        {if ($vo.type==0)}
+            <div style="display: flex;">
+                <div style="flex: 0vw;"></div>
+                <div class="alert at alert-default alert-dismissible fade show" style="flex: 95vw;" role="alert">
+                    <span class="alert-inner--text">
+                        {php}echo $vo['name'];{/php}
+                    </span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div style="flex: 0vw;"></div>
+            </div>
+        {elseif ($vo.type==1)}
+            <div style="display: flex;">
+                <div style="flex: 0vw;"></div>
+                <div class="alert at alert-info alert-dismissible fade show" style="flex: 95vw;" role="alert">
+                    <span class="alert-inner--text">
+                        {php}echo $vo['name'];{/php}
+                    </span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div style="flex: 0vw;"></div>
+            </div>
+        {elseif ($vo.type==2)}
+            <div style="display: flex;">
+                <div style="flex: 0vw;"></div>
+                <div class="alert at alert-success alert-dismissible fade show" style="flex: 95vw;" role="alert">
+                    <span class="alert-inner--text">
+                        {php}echo $vo['name'];{/php}
+                    </span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div style="flex: 0vw;"></div>
+            </div>
+        {elseif ($vo.type==3)}
+            <div style="display: flex;">
+                <div style="flex: 0vw;"></div>
+                <div class="alert at alert-warning alert-dismissible fade show" style="flex: 95vw;" role="alert">
+                    <span class="alert-inner--text">
+                        {php}echo $vo['name'];{/php}
+                    </span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div style="flex: 0vw;"></div>
+            </div>
+        {elseif ($vo.type==4)}
+            <div style="display: flex;">
+                <div style="flex: 0vw;"></div>
+                <div class="alert at alert-danger alert-dismissible fade show" style="flex: 95vw;" role="alert">
+                    <span class="alert-inner--text">
+                        {php}echo $vo['name'];{/php}
+                    </span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div style="flex: 0vw;"></div>
+            </div>
+        {/if}
+    {/foreach}
+</div>
+{if !empty($mei_list)}
+    <div style="display: flex;">
+        <div style="flex: 0vw;"></div>
+        <h2 style="flex: 95vw;" id="mei-list">
+            每日吸毛（随机展示）
+            <a href="#" onclick="location.reload()">刷新</a>
+        </h2>
+    </div>
+    <div style="height: 18px;"></div>
+    <div style="display: flex;">
+        <div style="flex: 0vw;"></div>
+        <div class="ui link cards" style="flex: 94vw;">
+            {foreach $mei_list as $key=>$vo }
+                {php}
+                    $auther = Db::table('user_list')->where('id',$vo['auther_id'])->find();
+                    $auther_username = $auther['username'];
+                    $auther_disname = $auther['displayname'];
+                {/php}
+                <div class="card card-show" data-tooltip="点击跳转资料卡" onclick="window.open('/info/furry?id={$vo.id}','_self')">
+                    <div class="image">
+                        <img src="/static/images/furry/{$vo.name}.jpg" loading="lazy">
+                    </div>
+                    <div class="content">
+                        <div class="header">
+                            <div class="ui horizontal label animal-show">{$vo.animal}</div>
+                            {$vo.name}
+                        </div>
+                        <div class="meta">
+                            <a>来源：{$vo.source}</a>
+                        </div>
+                        <div class="description">
+                            {php}
+                                if(mb_strlen($vo['describe']) > 18) echo htmlentities(mb_substr($vo['describe'],0,18)).'...';
+                                else echo htmlentities($vo['describe']);
+                            {/php}
+                        </div>
+                    </div>
+                    <div class="extra content">
+                        <a data-tooltip="点击跳转用户资料" class="ui basic image label" href="/info/user?id={$vo.auther_id}">
+                            <img src="/static/images/user/{$auther_username}.jpg" width="16px" height="16px">
+                            {$auther_disname}
+                        </a>
+                        <span class="right floated">
+                            <div class="ui red horizontal label">
+                                <i class="fa fa-id-card-o"></i>
+                                {if($vo.has_fur==1)}有毛装
+                                {elseif $vo.has_fur==-1}无数据
+                                {else /}虚拟UP
+                                {/if}
+                            </div>
+                            <a class="ui gray circular label">
+                                <i class="fa fa-user-o"></i>
+                                {if($vo.gender==1)}雄
+                                {elseif($vo.gender==0)}雌
+                                {elseif($vo.gender==-1)}未知
+                                {/if}
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            {/foreach}
+        </div>
+    </div>
+    <br>
+{/if}
+{if !empty($photo_list)}
+    <div style="display: flex;">
+        <div style="flex: 0vw;"></div>
+        <h2 style="flex: 95vw;" id="photo-list">返图列表</h2>
+    </div>
+    <div style="height: 18px;"></div>
+    <div style="display: flex;">
+        <div style="flex: 0vw;"></div>
+        <div class="ui link cards" style="flex: 94vw;">
+            {foreach $photo_list as $key=>$vo }
+                {php}
+                    $auther = Db::table('user_list')->where('id',$vo['auther_id'])->find();
+                    $auther_username = $auther['username'];
+                    $auther_disname = $auther['displayname'];
+                {/php}
+                <div class="card card-show" onclick="window.open('/info/photo?id={$vo.id}','_self')">
+                    <div class="image">
+                        <img src="/static/images/photo/{$vo.title}/img1.jpg" loading="lazy">
+                    </div>
+                    <div class="content">
+                        <div class="header">
+                            {$vo.title}
+                        </div>
+                        <div class="meta">
+                            <a>来源：{$vo.source}</a>
+                        </div>
+                        <div class="description">
+                            {php}
+                                if(mb_strlen($vo['content']) > 18) echo htmlentities(mb_substr($vo['content'],0,18)).'...';
+                                else echo htmlentities($vo['content']);
+                            {/php}
+                        </div>
+                    </div>
+                    <div class="extra content">
+                        <a data-tooltip="点击跳转用户资料" class="ui basic image label" href="/info/user?id={$vo.auther_id}">
+                            <img src="/static/images/user/{$auther_username}.jpg" width="16px" height="16px">
+                            {$auther_disname}
+                        </a>
+                    </div>
+                </div>
+            {/foreach}
+            <div class="card card-show" style="height: 210px;" data-tooltip="点击跳转" onclick="window.open('/lists/photo','_self')">
+                <div class="content">
+                    <div class="header">
+                        <h1>所有返图</h1>
+                    </div>
+                    <div class="description">
+                        <h5>请点击该卡片跳转至全部返图列表</h5>
+                        <i class="big black icon arrow right"></i>
+                    </div>
+                </div>
+                <div class="extra content">
+                    官方链接
+                </div>
+            </div>
+        </div>
+    </div>
+{/if}
+{if !empty($furry_list)}
+    <br>
+    <div style="display: flex;">
+        <div style="flex: 0vw;"></div>
+        <h2 style="flex: 95vw;" id="mao-list">毛毛列表</h2>
+    </div>
+    <div style="height: 18px;"></div>
+    <div style="display: flex;">
+        <div style="flex: 0vw;"></div>
+        <div class="ui link cards" style="flex: 94vw;">
+            {foreach $furry_list as $key=>$vo }
+                {php}
+                    $auther = Db::table('user_list')->where('id',$vo['auther_id'])->find();
+                    $auther_username = $auther['username'];
+                    $auther_disname = $auther['displayname'];
+                {/php}
+                <div class="card card-show" data-tooltip="点击跳转资料卡" onclick="window.open('/info/furry?id={$vo.id}','_self')">
+                    <div class="image">
+                        <img src="/static/images/furry/{$vo.name}.jpg" loading="lazy">
+                    </div>
+                    <div class="content">
+                        <div class="header">
+                            <div class="ui horizontal label animal-show">{$vo.animal}</div>
+                            {$vo.name}
+                        </div>
+                        <div class="meta">
+                            <a>来源：{$vo.source}</a>
+                        </div>
+                        <div class="description">
+                            {php}
+                                if(mb_strlen($vo['describe']) > 18) echo htmlentities(mb_substr($vo['describe'],0,18)).'...';
+                                else echo htmlentities($vo['describe']);
+                            {/php}
+                        </div>
+                    </div>
+                    <div class="extra content">
+                        <a data-tooltip="点击跳转用户资料" class="ui basic image label" href="/info/user?id={$vo.auther_id}">
+                            <img src="/static/images/user/{$auther_username}.jpg" width="16px" height="16px">
+                            {$auther_disname}
+                        </a>
+                        <span class="right floated">
+                            <div class="ui red horizontal label">
+                                <i class="fa fa-id-card-o"></i>
+                                {if($vo.has_fur==1)}有毛装
+                                {elseif $vo.has_fur==-1}无数据
+                                {else /}虚拟UP
+                                {/if}
+                            </div>
+                            <a class="ui gray circular label">
+                                <i class="fa fa-user-o"></i>
+                                {if($vo.gender==1)}雄
+                                {elseif($vo.gender==0)}雌
+                                {elseif($vo.gender==-1)}未知
+                                {/if}
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            {/foreach}
+            <div class="card card-show" style="height: 210px;" data-tooltip="点击跳转" onclick="window.open('/lists/furry','_self')">
+                <div class="content">
+                    <div class="header">
+                        <h1>所有毛毛</h1>
+                    </div>
+                    <div class="description">
+                        <h5>请点击该卡片跳转至全部毛毛列表</h5>
+                        <i class="big black icon arrow right"></i>
+                    </div>
+                </div>
+                <div class="extra content">
+                    官方链接
+                </div>
+            </div>
+        </div>
+    </div>
+{else /}
+    <div class="info">
+        <div class="icon icon-lg icon-shape icon-shape-primary shadow rounded-circle">
+            <i class="ni ni-settings-gear-65"></i>
+        </div>
+        <h6 class="info-title text-uppercase text-primary">Sorry！数据库为空！</h6>
+        <p class="description opacity-8">我也在努力扩充数据库，但是一个人的力量是不够的，所以 <a href="/user.php/register">注册一个账户</a>或者<a href="/other.php/o_user/login">登录账户</a> 帮助我们扩充吧</p>
+        <a href="/other.php/o_home" class="text-primary">回到首页
+            <i class="ni ni-bold-right text-primary"></i>
+        </a>
+    </div>
+{/if}
+<br>
+{if $head_noticeDialogShow && !$head_dontShowFirst}
+<script type="text/javascript">
+    Swal.fire({
+        title: '高级公告',
+        showCancelButton: true,
+        text: '{php}echo $head_noticeDialogContent;{/php}',
+        confirmButtonText: '7天内不再提醒',
+        cancelButtonText: '知道了',
+        confirmButtonColor: '#9210ec',
+        cancelButtonColor: '#989898'
+    }).then((result) => {
+        if (result.value) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    if(reg_ajax(this.responseText) == "200"){
+                        swal.fire(
+                            '完成',
+                            '我们7天内不会再提醒你',
+                            'success'
+                        );
+                    }else if(reg_ajax(this.responseText) == "10"){
+                        swal.fire(
+                            '错误',
+                            '您现在本该不显示',
+                            'error'
+                        );
+                    }
+                }else{
+                    swal.fire(
+                        '错误',
+                        '进行ajax请求时发生错误: ' + this.status,
+                        'error'
+                    );
+                }
+            };
+            xhttp.open("GET", "/app.php/dontfirst/", true);
+            xhttp.send();
+        }
+    });
+</script>
+{/if}
+{include file='static@page/footer'}

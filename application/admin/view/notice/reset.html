@@ -1,0 +1,41 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/admin'}
+<div class="ui grid">
+    <div class="three wide column">
+        <div class="ui secondary vertical menu">
+            <a class="item" href="/admin.php/notice">
+                公告列表
+            </a>
+            <a class="item" href="/admin.php/notice/add">
+                新增公告
+            </a>
+        </div>
+    </div>
+    <div class="twelve wide column">
+        <form method="post" action="/admin.php/notice/reset_c">
+            <input type="hidden" value="{$notice.id}" name="id">
+            <div class="form-group">
+                <label>内容</label>
+                <textarea name="name" class="form-control form-control-alternative" rows="4" placeholder="内容">{$notice.name}</textarea>
+            </div>
+            <div class="form-group">
+                <label>类型</label>
+                <select class="form-control form-control-alternative" data-trigger name="type">
+                    <option disabled selected>请选择类型</option>
+                    <option value="0" {if $notice['type']==0}selected{/if}>普通</option>
+                    <option value="1" {if $notice['type']==1}selected{/if}>提示</option>
+                    <option value="2" {if $notice['type']==2}selected{/if}>成功</option>
+                    <option value="3" {if $notice['type']==3}selected{/if}>注意</option>
+                    <option value="4" {if $notice['type']==4}selected{/if}>警告</option>
+                </select>
+            </div>
+            <button class="ui button" type="submit">提交</button>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.ui.dropdown')
+        .dropdown()
+    ;
+</script>

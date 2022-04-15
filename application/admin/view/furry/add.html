@@ -1,0 +1,128 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/admin'}
+<div class="ui grid">
+    <div class="three wide column">
+        <div class="ui secondary vertical menu">
+            <a class="item" href="/admin.php/furry">
+                毛毛列表
+            </a>
+            <a class="item" href="/admin.php/furry/add">
+                新增毛毛
+            </a>
+        </div>
+    </div>
+    <div class="twelve wide column">
+        <form method="post" action="/admin.php/furry/add_c" enctype="multipart/form-data">
+            <div class="field">
+                <label>展示图片</label>
+                <br>
+                <div class="fileinput fileinput-new text-center mr-5" data-provides="fileinput">
+                    <div class="fileinput-new thumbnail img-raised">
+                        <img src="/static/images/image_placeholder.jpg" alt>
+                    </div>
+                    <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+                    <div>
+						<span class="btn btn-raised btn-primary btn-simple btn-file">
+							<span class="fileinput-new">选择图片</span>
+							<span class="fileinput-exists">修改</span>
+							<input type="file" name="imgfile" id="imgfile" accept="image/jpeg,image/jpg,image/png" />
+						</span>
+                        <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">
+                            删除
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>毛毛名称</label>
+                <input type="text" name="name" class="form-control form-control-alternative" placeholder="名称">
+            </div>
+            <div class="form-group">
+                <label>毛毛描述</label>
+                <div id="des-markdown"></div>
+                <textarea name="describe" id="describe" style="display: none;"></textarea>
+            </div>
+            <div class="form-group">
+                <label>捕捉注意</label>
+                <div id="rinfo-markdown"></div>
+                <textarea name="ruainfo" id="ruainfo" style="display: none;"></textarea>
+            </div>
+            <div class="form-group">
+                <label>毛毛物种</label>
+                <input type="text" class="form-control form-control-alternative" name="animal" placeholder="物种">
+            </div>
+            <div class="form-group">
+                <label>毛毛性别</label>
+                <select class="form-control form-control-alternative" data-trigger name="gender">
+                    <option disabled selected>选择性别</option>
+                    <option value="-1">未知</option>
+                    <option value="1">雄</option>
+                    <option value="0">雌</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>是否有毛装</label>
+                <select class="form-control form-control-alternative" data-trigger name="has_fur">
+                    <option disabled selected>请选择是或否</option>
+                    <option value="-1">未知</option>
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>B站地址</label>
+                <input type="text" class="form-control form-control-alternative" name="bilibili_account" placeholder="空间地址">
+            </div>
+            <div class="form-group">
+                <label>QQ</label>
+                <input type="number" class="form-control form-control-alternative" name="qq" placeholder="QQ号">
+            </div>
+            <div class="form-group">
+                <label>微博地址</label>
+                <input type="text" class="form-control form-control-alternative" name="weibo" placeholder="微博地址">
+            </div>
+            <div class="form-group">
+                <label>推特</label>
+                <input type="text" class="form-control form-control-alternative" name="twitter" placeholder="Twitter名">
+            </div>
+            <div class="form-group">
+                <label>B站视频AV/BV号</label>
+                <input type="text" class="form-control form-control-alternative" name="bilibili_video" placeholder="填写号码">
+            </div>
+            <div class="form-group">
+                <label>来源</label>
+                <input type="text" class="form-control form-control-alternative" name="source" placeholder="填写内容">
+            </div>
+            <div class="form-group">
+                <label>资料卡主题颜色</label>
+                <input type="color" style="width: 60px;" class="form-control form-control-alternative" name="text_color" placeholder="选择颜色" value="#ffffff">
+            </div>
+            <button class="btn btn-secondary" type="submit">提交</button>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    const E = window.wangEditor
+    const editor = new E('#des-markdown')
+    const $text1 = $('#describe')
+    editor.config.onchange = function (html) {
+        // 第二步，监控变化，同步更新到 textarea
+        $text1.val(html)
+    }
+    editor.config.placeholder = '毛毛的描述 | 可以是各种东西'
+    editor.create()
+    // 第一步，初始化 textarea 的值
+    $text1.val(filterXSS(editor.txt.html()))
+
+    const editor2 = new E('#rinfo-markdown')
+    const $text2 = $('#ruainfo')
+    editor2.config.onchange = function (html) {
+        // 第二步，监控变化，同步更新到 textarea
+        $text2.val(html)
+    }
+    editor2.config.placeholder = '捕捉的注意事项 | 可以是各种东西'
+    editor2.create()
+    // 第一步，初始化 textarea 的值
+    $text2.val(filterXSS(editor2.txt.html()))
+</script>

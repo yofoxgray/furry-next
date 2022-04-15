@@ -1,0 +1,75 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/admin'}
+        <div class="ui grid">
+            <div class="three wide column">
+                <div class="ui secondary vertical menu">
+                    <a class="item" href="/admin.php/photo">
+                        返图列表
+                    </a>
+                    <a class="item" href="/admin.php/photo/add">
+                        新增返图
+                    </a>
+                </div>
+            </div>
+            <div class="twelve wide column">
+                <table class="table" style="background: white;">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>标题</th>
+                            <th style="width: 160px; height: 36.4815px; min-height: 36.4815px;">内容</th>
+                            <th>来源</th>
+                            <th>操作</th>
+                        </tr></thead>
+                        <tbody>
+                            {volist name='lists' id='vo'}
+                                <tr>
+                                    <td>{$vo.id}</td>
+                                    <td>{$vo.title}</td>
+                                    <td>{php}echo htmlentities(mb_substr($vo['content'],0,20)).'...';{/php}</td>
+                                    <td>{$vo.source}</td>
+                                    <td class="td-actions text-left">
+                                        <button type="button" data-toggle="modal" data-target="#modal-del-{$vo.id}" rel="tooltip" class="btn btn-danger btn-icon btn-sm " data-original-title="" title="">
+                                            <i class="ni ni-fat-remove pt-1"></i>
+                                        </button>
+                                    </td>
+
+                                    <div class="col-md-4">
+                                        <div class="modal fade" id="modal-del-{$vo.id}" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                                            <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                                                <div class="modal-content bg-gradient-danger">
+                                                    <div class="modal-header">
+                                                        <h6 class="modal-title" id="modal-title-notification">删除确认</h6>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="py-3 text-center">
+                                                            <i class="ni ni-bell-55 ni-3x"></i>
+                                                            <h4 class="heading mt-4">你确定要删除这个返图吗？</h4>
+                                                            <p>该操作无法撤回！</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a class="btn btn-white" href="/admin.php/photo/del_c?id={$vo.id}">任然删除</a>
+                                                        <a class="btn btn-link text-white ml-auto" data-dismiss="modal">关闭</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tr>
+                            {/volist}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="8">
+                                    {php}echo $lists->render();{/php}
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>

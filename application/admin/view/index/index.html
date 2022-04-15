@@ -1,0 +1,30 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/admin'}
+<div class="ui grid">
+    <div class="one wide column"></div>
+    <div class="twelve wide column">
+        <div class="ui statistics">
+            <div class="statistic">
+                <div class="value">
+                    {$furry_count}
+                </div>
+                <div class="label">
+                    毛毛数量
+                </div>
+            </div>
+            <div class="statistic">
+                <div class="value">
+                    {$user_count}
+                </div>
+                <div class="label">用户数量 </div>
+            </div>
+            <div class="statistic">
+                <div class="value">
+                    {$notice_count}
+                </div>
+                <div class="label">公告数量 </div>
+            </div>
+        </div>
+    </div>
+</div>

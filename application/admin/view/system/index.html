@@ -1,0 +1,100 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/admin'}
+        <div class="ui grid">
+            <div class="two wide column"></div>
+            <div class="eleven wide column">
+                <h3>更新数据</h3>
+                <div>
+                    <h4>基本信息</h4>
+                    <div class="form-group">
+                        <label for="site_name">站点名称</label>
+                        <input type="text" class="form-control form-control-alternative" id="site_name" value="{$site_name}" placeholder="网站名称">
+                    </div>
+                    <div class="form-group">
+                        <label for="favicon_path">站点Favicon地址</label>
+                        <input type="text" class="form-control form-control-alternative" id="favicon_path" value="{$favicon_path}" placeholder="网站名称">
+                    </div>
+                    <div class="form-group">
+                        <label for="notice_dialog_content">公告对话框内容</label>
+                        <textarea id="notice_dialog_content" rows="2" class="form-control form-control-alternative" placeholder="内容">{$notice_dialog_content}</textarea>
+                    </div>
+                    <div class="custom-control custom-checkbox mb-3">
+                        <input class="custom-control-input" id="notice_dialog_show" type="checkbox" {php}if($notice_dialog_show) echo 'checked'; {/php}>
+                        <label class="custom-control-label" for="notice_dialog_show">显示公告对话框</label>
+                    </div>
+                    <h4>VAPCHA</h4>
+                    <div class="form-group">
+                        <label for="vaptcha_client_token">客户端Token</label>
+                        <textarea id="vaptcha_client_token" rows="2" class="form-control form-control-alternative" placeholder="内容">{$vaptcha_client_token}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="vaptcha_server_token">服务的Token</label>
+                        <textarea id="vaptcha_server_token" rows="2" class="form-control form-control-alternative" placeholder="内容">{$vaptcha_server_token}</textarea>
+                    </div>
+                    <button class="btn btn-secondary" type="button" onclick="loc()">提交</button>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h3>工具</h3>
+                <button type="button" class="btn btn-gradient-secondary" onclick="df()">（DEBUG）重置自己的第一次显示对话框</button>
+            </div>
+        </div>
+        <script type="text/javascript">
+            function loc() {
+                var site_name = document.getElementById("site_name").value;
+                var favicon_path = document.getElementById("favicon_path").value;
+                var notice_dialog_show = document.getElementById("notice_dialog_show").checked;
+                var notice_dialog_content = document.getElementById("notice_dialog_content").value;
+                var vaptcha_client_token = document.getElementById("vaptcha_client_token").value;
+                var vaptcha_server_token = document.getElementById("vaptcha_server_token").value;
+
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        Swal.fire(
+                            '成功',
+                            '修改成功',
+                            'success'
+                        )
+                    } else {
+                        Swal.fire(
+                            '错误',
+                            '进行ajax请求时出错',
+                            'error'
+                        )
+                    }
+                };
+                xhttp.open("POST", "/admin.php/system/update_c", true);
+                xhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+                xhttp.send(`site_name=${site_name}&favicon_path=${favicon_path}&notice_dialog_show=${notice_dialog_show}&notice_dialog_content=${notice_dialog_content}&vaptcha_client_token=${vaptcha_client_token}&vaptcha_server_token=${vaptcha_server_token}`);
+            }
+            function df() {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        if (this.responseText == "200") {
+                            swal.fire(
+                                '成功',
+                                '已经删除您的cookie',
+                                'success'
+                            )
+                        }else if(this.responseText == "10"){
+                            swal.fire(
+                                '错误',
+                                '您没有该cookie',
+                                'error'
+                            )
+                        }
+                    } else {
+                        swal.fire(
+                            '错误',
+                            '进行ajax请求时出错',
+                            'error'
+                        )
+                    }
+                };
+                xhttp.open("GET", "/app.php/resetfirst?admin", true);
+                xhttp.send();
+            }
+        </script>

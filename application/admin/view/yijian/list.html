@@ -1,0 +1,89 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/admin'}
+<div class="ui grid">
+    <div class="three wide column">
+        <div class="ui secondary vertical menu">
+            <a class="item" href="/admin.php/yijian">
+                意见列表
+            </a>
+        </div>
+    </div>
+    <div class="twelve wide column">
+        <table class="ui celled padded table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>标题</th>
+                <th>内容</th>
+                <th>回复</th>
+                <th>上一个回复人</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr></thead>
+            <tbody>
+                {volist name='lists' id='vo'}
+                    {php}
+                        $rn = Db::table('user_list')->where('id',$vo['return_user'])->value('displayname');
+                    {/php}
+                    <tr>
+                        <td>{$vo.id}</td>
+                        <td>{$vo.title}</td>
+                        <td>{$vo.content}</td>
+                        <td>{$vo.return_info}</td>
+                        <td>
+                            {if $vo['return_user']==-1}
+                            {else /}{$rn}
+                            {/if}
+                        </td>
+                        <td>
+                            {if $vo['state']==0}未回复
+                            {elseif $vo['state']==1}已记录
+                            {elseif $vo['state']==2}考虑中
+                            {elseif $vo['state']==3}不采用
+                            {else /}未知
+                            {/if}
+                        </td>
+                        <td>
+                            <a href="/admin.php/yijian/rt/?id={$vo.id}"><i class="pencil alternate icon"></i></a>
+                            <a href="#" data-toggle="modal" data-target="#modal-del"><i class="ni ni-fat-remove" style="color: red;"></i></a>
+                        </td>
+
+                        <div class="col-md-4">
+                            <div class="modal fade" id="modal-del" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                                <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                                    <div class="modal-content bg-gradient-danger">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" id="modal-title-notification">删除确认</h6>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="py-3 text-center">
+                                                <i class="ni ni-bell-55 ni-3x"></i>
+                                                <h4 class="heading mt-4">你确定要删除这条意见吗？</h4>
+                                                <p>该操作无法撤回！</p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="btn btn-white" href="/admin.php/yijian/del_c?id={$vo.id}">任然删除</a>
+                                            <a class="btn btn-link text-white ml-auto" data-dismiss="modal">关闭</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tr>
+                {/volist}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="8">
+                        {php}echo $lists->render();{/php}
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

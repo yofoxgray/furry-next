@@ -1,0 +1,114 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/admin'}
+<div class="ui grid">
+    <div class="three wide column">
+        <div class="ui secondary vertical menu">
+            <a class="item" href="/admin.php/furry">
+                毛毛列表
+            </a>
+            <a class="item" href="/admin.php/furry/add">
+                新增毛毛
+            </a>
+        </div>
+    </div>
+    <div class="twelve wide column">
+        <form method="post" action="/admin.php/furry/reset_c">
+            <input type="hidden" value="{$furry.id}" name="id">
+            <div class="fixed">
+                <label>展示图片</label>
+                <br>
+                <img width="240px" src="/static/images/furry/{$furry.name}.jpg">
+            </div>
+            <div class="form-group">
+                <label>毛毛名称</label>
+                <input disabled type="text" value="{$furry.name}" class="form-control form-control-alternative" placeholder="名称">
+            </div>
+            <div class="form-group">
+                <label>毛毛描述</label>
+                <div id="des-markdown">{php}echo $furry['describe'];{/php}</div>
+                <textarea name="describe" id="describe" style="display: none;">{$furry.describe}</textarea>
+            </div>
+            <div class="form-group">
+                <label>捕捉注意</label>
+                <div id="rinfo-markdown">{php}echo $furry['ruainfo'];{/php}</div>
+                <textarea name="ruainfo" id="ruainfo" style="display: none;">{$furry.ruainfo}</textarea>
+            </div>
+            <div class="form-group">
+                <label>毛毛物种</label>
+                <input type="text" class="form-control form-control-alternative" value="{$furry.animal}" name="animal" placeholder="物种">
+            </div>
+            <div class="form-group">
+                <label>毛毛性别</label>
+                <select class="form-control form-control-alternative" data-trigger name="gender">
+                    <option disabled>选择性别</option>
+                    <option value="-1" {if $furry['gender']==-1}selected{/if}>未知 </option>
+                    <option value="1" {if $furry['gender']==1}selected{/if}>雄 </option>
+                    <option value="0" {if $furry['gender']==0}selected{/if}>雌 </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>是否有毛装</label>
+                <select class="form-control form-control-alternative" data-trigger name="has_fur">
+                    <option disabled>请选择是或否</option>
+                    <option value="-1" {if $furry['has_fur']==-1}selected{/if}>未知 </option>
+                    <option value="1" {if $furry['has_fur']==-1}selected{/if}>是 </option>
+                    <option value="0" {if $furry['has_fur']==-1}selected{/if}>否 </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>B站地址</label>
+                <input type="text" value="{$furry.bilibili_account}" class="form-control form-control-alternative" name="bilibili_account" placeholder="空间地址">
+            </div>
+            <div class="form-group">
+                <label>QQ</label>
+                <input type="number" value="{$furry.qq}" class="form-control form-control-alternative" name="qq" placeholder="QQ号">
+            </div>
+            <div class="form-group">
+                <label>微博地址</label>
+                <input type="text" value="{$furry.weibo}" class="form-control form-control-alternative" name="weibo" placeholder="微博地址">
+            </div>
+            <div class="form-group">
+                <label>推特</label>
+                <input type="text" value="{$furry.twitter}" class="form-control form-control-alternative" name="twitter" placeholder="Twitter名">
+            </div>
+            <div class="form-group">
+                <label>B站视频AV/BV号</label>
+                <input type="text" value="{$furry.bilibili_video}" class="form-control form-control-alternative" name="bilibili_video" placeholder="填写号码">
+            </div>
+            <div class="form-group">
+                <label>来源</label>
+                <input value="{$furry.source}" type="text" class="form-control form-control-alternative" name="source" placeholder="填写内容">
+            </div>
+            <div class="form-group">
+                <label>资料卡主题颜色</label>
+                <input type="color" value="{$furry.text_color}" style="width: 60px;" class="form-control form-control-alternative" name="text_color" placeholder="选择颜色">
+            </div>
+            <button class="btn btn-secondary" type="submit">提交</button>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    const E = window.wangEditor
+    const editor = new E('#des-markdown')
+    const $text1 = $('#describe')
+    editor.config.onchange = function (html) {
+        // 第二步，监控变化，同步更新到 textarea
+        $text1.val(html)
+    }
+    editor.config.placeholder = '毛毛的描述 | 可以是各种东西'
+    editor.create()
+    // 第一步，初始化 textarea 的值
+    $text1.val(filterXSS(editor.txt.html()))
+
+    const editor2 = new E('#rinfo-markdown')
+    const $text2 = $('#ruainfo')
+    editor2.config.onchange = function (html) {
+        // 第二步，监控变化，同步更新到 textarea
+        $text2.val(html)
+    }
+    editor2.config.placeholder = '捕捉的注意事项 | 可以是各种东西'
+    editor2.create()
+    // 第一步，初始化 textarea 的值
+    $text2.val(filterXSS(editor2.txt.html()))
+</script>

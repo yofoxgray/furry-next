@@ -1,0 +1,74 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/home'}
+<div style="display: flex;">
+    <div style="flex: 0vw;"></div>
+    <div class="alert at alert-warning alert-dismissible fade show" style="flex: 95vw;" role="alert">
+		<span class="alert-inner--text">
+			个性化设置使用Cookie保存，所以删除Cookie后设置会失效！
+		</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div style="flex: 0vw;"></div>
+</div>
+<div class="ui grid">
+    <div class="three wide column"></div>
+    <div class="twelve wide column">
+        <div>
+            <div class="form-group">
+                <label>毛毛列表展示个数</label>
+                <input class="form-control form-control-alternative" style="width: 350px;" value="{$home_furry_ls}" type="number" id="home_furry">
+            </div>
+            <div class="form-group">
+                <label>返图列表展示个数</label>
+                <input class="form-control form-control-alternative" style="width: 350px;" value="{$home_photo_ls}" type="number" id="home_photo">
+            </div>
+            <div class="form-group">
+                <label>每日吸毛展示个数</label>
+                <input class="form-control form-control-alternative" style="width: 350px;" value="{$home_mei_ls}" type="number" id="home_mei">
+            </div>
+            <div class="field">
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" id="afdianxx" tabindex="0" {php}if($head_afdianx) echo 'checked="checked"' ; {/php}> <label>显示和爱发电（赞助）有关的东西</label>
+                </div>
+            </div>
+            <button class="btn btn-secondary" onclick="su()" type="button">更新</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function su(){
+            var home_furry = document.getElementById('home_furry').value;
+            var home_photo = document.getElementById('home_photo').value;
+            var home_mei = document.getElementById('home_mei').value;
+            var afdianxx = document.getElementById('afdianxx').checked;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    if (reg_ajax(this.responseText) === "200") {
+                        swal.fire(
+                            '成功',
+                            '修改成功',
+                            'success'
+                        )
+                    }else if (reg_ajax(this.responseText) === "27") {
+                        swal.fire(
+                            '错误',
+                            '数值不能为负数！！！',
+                            'error'
+                        )
+                    }
+                } else {
+                    swal.fire(
+                        '错误',
+                        '进行ajax请求时出错',
+                        'error'
+                    )
+                }
+            };
+            xhttp.open("POST", "/app.php/ddu/update", true);
+            xhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+            xhttp.send(`home_furry=${home_furry}&home_photo=${home_photo}&afdianx=${afdianxx}&home_mei=${home_mei}`);
+        }
+    </script>

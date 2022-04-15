@@ -1,0 +1,92 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/admin'}
+<div class="ui grid">
+    <div class="three wide column">
+        <div class="ui secondary vertical menu">
+            <a class="item" href="/admin.php/furry">
+                毛毛列表
+            </a>
+            <a class="item" href="/admin.php/furry/add">
+                新增毛毛
+            </a>
+        </div>
+    </div>
+    <div class="twelve wide column">
+        <table class="table" style="background: white;">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>名称</th>
+                <th>描述</th>
+                <th>物种</th>
+                <th>性别</th>
+                <th>来源</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $lists as $key=>$vo }
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.name}</td>
+                    <td>{php}echo htmlentities(mb_substr($vo['describe'],0,20)).'...';{/php}</td>
+                    <td>
+                        {if ($vo.animal=="NULL")} 未知
+                        {else /}{$vo.animal}
+                        {/if}
+                    </td>
+                    <td>
+                        {if($vo.gender==1)}公
+                        {elseif($vo.gender==0)}母
+                        {elseif($vo.gender==-1)}未知
+                        {/if}
+                    </td>
+                    <td>{$vo.source}</td>
+                    <td class="td-actions text-left">
+                        <a href="/admin.php/furry/reset/?id={$vo.id}" rel="tooltip" class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
+                            <i class="ni ni-settings-gear-65 pt-1"></i>
+                        </a>
+                        <button type="button" data-toggle="modal" data-target="#modal-del-{$vo.id}" rel="tooltip" class="btn btn-danger btn-icon btn-sm " data-original-title="" title="">
+                            <i class="ni ni-fat-remove pt-1"></i>
+                        </button>
+                    </td>
+
+                    <div class="col-md-4">
+                        <div class="modal fade" id="modal-del-{$vo.id}" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                            <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                                <div class="modal-content bg-gradient-danger">
+                                    <div class="modal-header">
+                                        <h6 class="modal-title" id="modal-title-notification">删除确认</h6>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="py-3 text-center">
+                                            <i class="ni ni-bell-55 ni-3x"></i>
+                                            <h4 class="heading mt-4">你确定要删除这个毛毛吗？</h4>
+                                            <p>该操作无法撤回！</p>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a class="btn btn-white" href="/admin.php/furry/del_c?id={$vo.id}">任然删除</a>
+                                        <a class="btn btn-link text-white ml-auto" data-dismiss="modal">关闭</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+            {/foreach}
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="8">
+                    {php}echo $lists->render();{/php}
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

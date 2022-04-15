@@ -1,0 +1,180 @@
+{include file='static@nav/install'}
+<div class="container">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-12">
+            <h1 id="start">开始安装</h1>
+            <label>感谢你选择 FurryNEXT 框架！让我们开始安装吧！</label>
+            <br>
+            <a class="btn btn-dark" href="#config">开始</a>
+            <hr>
+            <h4 id="config">配置文件</h4>
+            <div>
+                <div class="form-group">
+                    <label for="frame_version">框架版本</label>
+                    <input type="text" class="form-control form-control-alternative" id="frame_version" value="3.0.0" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="database_url">数据库地址</label>
+                    <input type="text" class="form-control form-control-alternative" id="database_url" placeholder="127.0.0.1" value="127.0.0.1">
+                </div>
+                <div class="form-group">
+                    <label for="database_port">数据库端口</label>
+                    <input type="text" class="form-control form-control-alternative" id="database_port" placeholder="3306" value="3306">
+                </div>
+                <div class="form-group">
+                    <label for="database_username">数据库用户名</label>
+                    <input type="text" class="form-control form-control-alternative" id="database_username" placeholder="root" value="root">
+                </div>
+                <div class="form-group">
+                    <label for="database_password">数据库密码</label>
+                    <input type="password" class="form-control form-control-alternative" id="database_password" placeholder="" value="">
+                </div>
+                <div class="form-group">
+                    <label for="database_type">数据库类型</label>
+                    <select class="form-control form-control-alternative" data-trigger id="database_type">
+                        <option value="utf8" selected>utf8</option>
+                        <option value="utf8mb4">utf8mb4</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="database_b_name">数据库名称</label>
+                    <input type="text" class="form-control form-control-alternative" id="database_b_name" placeholder="database" value="">
+                </div>
+                <div class="form-group">
+                    <label>数据库表前缀</label>
+                    <input type="text" class="form-control form-control-alternative" value="不支持" disabled>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="favicon_path">网站图标地址（请先把文件上传到/public文件夹，然后填写地址(根目录为public)文件夹，开头不要填写/public!!!）</label>
+                    <input type="text" class="form-control form-control-alternative" id="favicon_path" placeholder="/favicon.ico" value="/favicon.ico">
+                </div>
+                <div class="form-group">
+                    <label for="site_name">网站名称</label>
+                    <input type="text" class="form-control form-control-alternative" id="site_name" placeholder="Furry博物馆" value="Furry博物馆">
+                </div>
+                <div class="form-group">
+                    <label for="vaptcha_client_token">Vaptcha 客户端Token</label>
+                    <input type="text" class="form-control form-control-alternative" id="vaptcha_client_token" placeholder="XXXXXXX" value="">
+                </div>
+                <div class="form-group">
+                    <label for="vaptcha_server_token">Vaptcha 服务端Token</label>
+                    <input type="text" class="form-control form-control-alternative" id="vaptcha_server_token" placeholder="XXXXXXX" value="">
+                </div>
+                <div class="form-group">
+                    <label for="notice_dialog_content">公告对话框内容</label>
+                    <textarea class="form-control form-control-alternative" id="notice_dialog_content" rows="2" placeholder="xxxxxxxxxxxxx"></textarea>
+                </div>
+                <div class="custom-control custom-checkbox mb-3">
+                    <input class="custom-control-input" id="notice_dialog_show" type="checkbox" checked>
+                    <label class="custom-control-label" for="notice_dialog_show">显示公告对话框</label>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="user_username">默认管理员用户名</label>
+                    <input type="text" class="form-control form-control-alternative" id="user_username" placeholder="admin" value="admin">
+                </div>
+                <div class="form-group">
+                    <label for="user_password">默认管理员密码</label>
+                    <input type="password" class="form-control form-control-alternative" id="user_password" placeholder="xxxxx" value="">
+                </div>
+                <div class="form-group">
+                    <label for="user_displayname">默认管理员显示名称</label>
+                    <input type="text" class="form-control form-control-alternative" id="user_displayname" placeholder="管理员" value="管理员">
+                </div>
+                <div class="custom-control custom-checkbox mb-3">
+                    <input class="custom-control-input" id="user_auto" type="checkbox">
+                    <label class="custom-control-label" for="user_auto">安装完后马上登录</label>
+                </div>
+                <button type="button" onclick="submit()" class="btn btn-info">提交安装</button>
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function submit(){
+        var frame_version = document.getElementById('frame_version').value;
+        var database_url = document.getElementById('database_url').value;
+        var database_port = document.getElementById('database_port').value;
+        var database_username = document.getElementById('database_username').value;
+        var database_password = document.getElementById('database_password').value;
+        var database_type = document.getElementById('database_type').value;
+        var database_b_name = document.getElementById('database_b_name').value;
+
+        var favicon_path = document.getElementById('favicon_path').value;
+        var site_name = document.getElementById('site_name').value;
+        var vaptcha_client_token = document.getElementById('vaptcha_client_token').value;
+        var vaptcha_server_token = document.getElementById('vaptcha_server_token').value;
+        var notice_dialog_content = document.getElementById('notice_dialog_content').value;
+        var notice_dialog_show = document.getElementById('notice_dialog_show').checked;
+
+        var user_username = document.getElementById('user_username').value;
+        var user_password = document.getElementById('user_password').value;
+        var user_displayname = document.getElementById('user_displayname').value;
+        var user_auto = document.getElementById('user_auto').checked;
+
+        Swal.queue([{
+            title: '你确定要正式安装吗？',
+            confirmButtonText: '安装',
+            cancelButtonText: '取消',
+            text: '安装后您的大部分设置都只能在以后修改',
+            showLoaderOnConfirm: true,
+            showCancelButton: true,
+            preConfirm: () => {
+                $.ajax({
+                    type: 'POST',
+                    url: '/app.php/install/ind0',
+                    data: {
+                        'frame_version' : frame_version,
+                        'database_url' : database_url,
+                        'database_port' : database_port,
+                        'database_username' : database_username,
+                        'database_password' : database_password,
+                        'database_type' : database_type,
+                        'database_b_name' : database_b_name,
+
+                        'favicon_path' : favicon_path,
+                        'site_name' : site_name,
+                        'vaptcha_client_token' : vaptcha_client_token,
+                        'vaptcha_server_token' : vaptcha_server_token,
+                        'notice_dialog_content' : notice_dialog_content,
+                        'notice_dialog_show' : notice_dialog_show,
+
+                        'user_username' : user_username,
+                        'user_password' : user_password,
+                        'user_displayname' : user_displayname,
+                        'user_auto' : user_auto
+                    },
+                    success:function (resp,status){
+                        if(resp === "100"){
+                            Swal.fire({
+                                type: 'success',
+                                title: '成功',
+                                text: '安装成功',
+                                confirmButtonText: '跳转到首页'
+                            }).then(() => {
+                                window.open('/','_self');
+                            });
+                        }else{
+                            Swal.fire({
+                                type: 'error',
+                                title: '错误',
+                                text: '未知：' + resp + "(" + status + ")"
+                            })
+                        }
+                    },
+                    error:function (xhr,errorText,errorType){
+                        Swal.fire({
+                            type: 'error',
+                            title: '错误',
+                            text: xhr.status + " " + errorType
+                        })
+                    }
+                })
+            }
+        }])
+    }
+</script>

@@ -1,0 +1,80 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/home'}
+{php}
+    $auther = Db::table('user_list')->where('id',$photo['auther_id'])->find();
+    $auther_baccount = $auther['baccount'];
+    $auther_username = $auther['username'];
+    $auther_disname = $auther['displayname'];
+{/php}
+<div>
+    <br>
+    <div class="ui grid">
+        <div class="one wide column"></div>
+        <div class="four wide column">
+            <nav aria-label="breadcrumb" role="navigation">
+                <ol class="breadcrumb" style="background: white;">
+                    <li class="breadcrumb-item">
+                        <a href="/">博物馆</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/lists/furry">返图卡</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{$photo.id}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <div class="ui grid">
+        <div class="two wide column"></div>
+        <div class="twelve wide column">
+            <div class="ui huge header" style="color: #222;">
+                {$photo.title}
+            </div>
+            <span style="color: #222;">{php}echo $photo['content'];{/php}</span>
+
+            <h4 class="ui horizontal divider header" style="color: #222;">
+                <i class="clipboard outline icon"></i>
+                图片
+            </h4>
+            {if file_exists('static/images/photo/'.$photo['title'].'/img1.jpg')}
+                <img src="/static/images/photo/{$photo.title}/img1.jpg" alt style="width: 60vw;" loading="lazy">
+            {/if}
+            {if file_exists('static/images/photo/'.$photo['title'].'/img2.jpg')}
+                <img src="/static/images/photo/{$photo.title}/img2.jpg" alt style="width: 60vw;" loading="lazy">
+            {/if}
+            {if file_exists('static/images/photo/'.$photo['title'].'/img3.jpg')}
+                <img src="/static/images/photo/{$photo.title}/img3.jpg" alt style="width: 60vw;" loading="lazy">
+            {/if}
+            {if file_exists('static/images/photo/'.$photo['title'].'/img4.jpg')}
+                <img src="/static/images/photo/{$photo.title}/img4.jpg" alt style="width: 60vw;" loading="lazy">
+            {/if}
+            {if file_exists('static/images/photo/'.$photo['title'].'/img5.jpg')}
+                <img src="/static/images/photo/{$photo.title}/img5.jpg" alt style="width: 60vw;" loading="lazy">
+            {/if}
+            {if file_exists('static/images/photo/'.$photo['title'].'/img6.jpg')}
+                <img src="/static/images/photo/{$photo.title}/img6.jpg" alt style="width: 60vw;" loading="lazy">
+            {/if}
+            {if file_exists('static/images/photo/'.$photo['title'].'/img7.jpg')}
+                <img src="/static/images/photo/{$photo.title}/img7.jpg" alt style="width: 60vw;" loading="lazy">
+            {/if}
+            {if file_exists('static/images/photo/'.$photo['title'].'/img8.jpg')}
+                <img src="/static/images/photo/{$photo.title}/img8.jpg" alt style="width: 60vw;" loading="lazy">
+            {/if}
+            {if file_exists('static/images/photo/'.$photo['title'].'/img9.jpg')}
+                <img src="/static/images/photo/{$photo.title}/img9.jpg" alt style="width: 60vw;" loading="lazy">
+            {/if}
+            <h4 class="ui horizontal divider header" style="color: #222;">
+                <i class="clipboard outline icon"></i>
+                数据收集
+            </h4>
+            <a class="ui basic image label user-show" href="/info/user?id={$photo.auther_id}">
+                <img src="/static/images/user/{$auther_username}.jpg" width="16px" height="16px">
+                {$auther_disname}
+            </a>
+            <br>
+            <br>
+        </div>
+    </div>
+</div>
+{include file='static@page/footer'}

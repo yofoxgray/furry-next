@@ -1,0 +1,177 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+{include file='static@nav/home'}
+<div class="bgcc">
+    <br>
+    <div class="ui grid">
+        <div class="one wide column"></div>
+        <div class="four wide column">
+            <nav aria-label="breadcrumb" role="navigation">
+                <ol class="breadcrumb" style="background: white;">
+                    <li class="breadcrumb-item">
+                        <a href="/">博物馆</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/lists/furry">用户资料</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{$user.id}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <div class="ui grid">
+        <div class="two wide column"></div>
+        <div class="twelve wide column">
+            <div id="header" style="display: flex">
+                <img src="{if file_exists('static/images/user/'.$user['username'].'.jpg')}/static/images/user/{$user.username}.jpg{else /}/static/images/placeholder.jpg{/if}" alt class="img-fluid rounded-circle shadow" style="width: 100px;flex: 0;">
+                <div>
+                    <label style="font-size: 2rem;">
+                        &nbsp;&nbsp;&nbsp;{$user.displayname}
+                        <div class="ui red horizontal label">
+                            <i class="fa fa-id-card-o"></i>
+                            {if($user.is_furry==1)}已兽化
+                            {else /}正常
+                            {/if}
+                        </div>
+                        <a class="ui gray circular label">
+                            <i class="fa fa-user-o"></i>
+                            {if($user.gender==1)}雄
+                            {elseif($user.gender==0)}雌
+                            {elseif($user.gender==-1)}未知
+                            {/if}
+                        </a>
+                    </label>
+                    <br>
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$user.describe}</span>
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{$user.baccount}">ta的个人主页</a>
+                </div>
+            </div>
+            <div class="nav-wrapper">
+                <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-home-tab" data-toggle="tab" href="#tabs-home" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true">
+                            <i class="fa fa-home mr-2"></i>首页
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-sm-3 mb-md-0" id="tabs-furry-tab" data-toggle="tab" href="#tabs-furry" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false">
+                            <i class="fa fa-folder-o mr-2"></i>ta提交的毛毛
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-sm-3 mb-md-0" id="tabs-photo-tab" data-toggle="tab" href="#tabs-photo" role="tab" aria-controls="tabs-icons-text-3" aria-selected="false">
+                            <i class="fa fa-folder-o mr-2"></i>ta提交的返图
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="tabs-home" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+                            <p class="description">首页暂时不知道做什么，就先留着以后开发吧</p>
+                        </div>
+
+                        <div class="tab-pane fade" id="tabs-photo" role="tabpanel" aria-labelledby="tabs-icons-text-3-tab">
+                            {if empty($photo_list)}
+                                <div class="info">
+                                    <div class="icon icon-lg icon-shape icon-shape-primary shadow rounded-circle">
+                                        <i class="ni ni-settings-gear-65"></i>
+                                    </div>
+                                    <h6 class="info-title text-uppercase text-primary">这个人好像从来没有提交过返图呢</h6>
+                                    <p class="description opacity-8">这个人有点懒啊~~~~（</p>
+                                    <a href="javascript:void(0)" class="text-primary">一个没有用的链接
+                                        <i class="ni ni-bold-right text-primary"></i>
+                                    </a>
+                                </div>
+                            {else /}
+                                <div class="ui link cards">
+                                    {foreach $photo_list as $key=>$vo }
+                                        <div class="card card-show" onclick="window.open('/info/photo?id={$vo.id}','_self')" style="width: 270px;">
+                                            <div class="image">
+                                                <img src="/static/images/photo/{$vo.title}/img1.jpg" loading="lazy">
+                                            </div>
+                                            <div class="content">
+                                                <div class="header">
+                                                    {$vo.title}
+                                                </div>
+                                                <div class="meta">
+                                                    <a>来源：{$vo.source}</a>
+                                                </div>
+                                                <div class="description">
+                                                    {php}
+                                                    if(mb_strlen($vo['content']) > 18) echo mb_substr($vo['content'],0,18).'...';
+                                                    else echo $vo['content'];
+                                                    {/php}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {/foreach}
+                                </div>
+                            {/if}
+                        </div>
+                        <div class="tab-pane fade" id="tabs-furry" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                            {if empty($furry_list)}
+                                <div class="info">
+                                    <div class="icon icon-lg icon-shape icon-shape-primary shadow rounded-circle">
+                                        <i class="ni ni-settings-gear-65"></i>
+                                    </div>
+                                    <h6 class="info-title text-uppercase text-primary">这个人好像从来没有提交过毛毛呢</h6>
+                                    <p class="description opacity-8">这个人有点懒啊~~~~（</p>
+                                    <a href="javascript:void(0)" class="text-primary">一个没有用的链接
+                                        <i class="ni ni-bold-right text-primary"></i>
+                                    </a>
+                                </div>
+                            {else /}
+                                <div class="ui link cards">
+                                    {foreach $furry_list as $key=>$vo }
+                                        <div class="card card-show" data-tooltip="点击跳转资料卡" onclick="window.open('/info/furry?id={$vo.id}','_self')" style="width: 270px;">
+                                            <div class="image">
+                                                <img src="/static/images/furry/{$vo.name}.jpg" loading="lazy">
+                                            </div>
+                                            <div class="content">
+                                                <div class="header">
+                                                    <div class="ui horizontal label animal-show">{$vo.animal}</div>
+                                                    {$vo.name}
+                                                </div>
+                                                <div class="meta">
+                                                    <a>来源：{$vo.source}</a>
+                                                </div>
+                                                <div class="description">
+                                                    {php}
+                                                        if(mb_strlen($vo['describe']) > 18) echo mb_substr($vo['describe'],0,18).'...';
+                                                        else echo $vo['describe'];
+                                                    {/php}
+                                                </div>
+                                            </div>
+                                            <div class="extra content">
+                                                <span class="right floated">
+                                                    <div class="ui red horizontal label">
+                                                        <i class="fa fa-id-card-o"></i>
+                                                        {if($vo.has_fur==1)}有毛装
+                                                        {elseif $vo.has_fur==-1}无数据
+                                                        {else /}虚拟UP
+                                                        {/if}
+                                                    </div>
+                                                    <a class="ui gray circular label">
+                                                        <i class="fa fa-user-o"></i>
+                                                        {if($vo.gender==1)}雄
+                                                        {elseif($vo.gender==0)}雌
+                                                        {elseif($vo.gender==-1)}未知
+                                                        {/if}
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    {/foreach}
+                                </div>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+{include file='static@page/footer'}

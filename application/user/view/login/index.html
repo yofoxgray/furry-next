@@ -1,0 +1,147 @@
+{include file='static@page/load'}
+{include file='static@page/header'}
+<section class="section section-shaped section-lg" style="width: 100vw;height: 100vh;">
+    <div class="shape shape-style-1 bg-gradient-default">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="container pt-lg-7">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card bg-secondary shadow border-0">
+                    <div class="card-body px-lg-5 py-lg-5">
+                        <div class="text-center text-muted mb-4">
+                            登录到 {$head_siteTitle}
+                        </div>
+                        <form role="form">
+                            <div class="form-group mb-3">
+                                <div class="input-group input-group-alternative">
+                                    <div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="ni ni-circle-08"></i>
+										</span>
+                                    </div>
+                                    <input class="form-control" id="username" placeholder="用户名" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group focused">
+                                <div class="input-group input-group-alternative">
+                                    <div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="ni ni-lock-circle-open"></i>
+										</span>
+                                    </div>
+                                    <input class="form-control" id="password" placeholder="密码" type="password">
+                                </div>
+                            </div>
+                            <div id="VAPTCHAContainer"></div>
+                            <div class="text-center">
+                                <button type="button" onclick="loc()" class="btn btn-primary my-4">登录</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <a onclick="history.back()" class="text-light">
+                            <small>返回上一页</small>
+                        </a>
+                    </div>
+                    <div class="col-6 text-right">
+                        <a href="/user.php/register" target="_self" class="text-light">
+                            <small>注册一个账号</small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    var ipp = false;
+    var obj;
+    vaptcha({
+        vid: '{$head_vaptcha_client_token}',
+        mode: 'click',
+        scene: 0,
+        container: '#VAPTCHAContainer',
+        area: 'auto',
+    }).then(function (vaptchaObj) {
+        //将VAPTCHA验证实例保存到局部变量中
+        obj = vaptchaObj;
+
+        // 渲染验证组件
+        vaptchaObj.render();
+
+        // 验证成功进行后续操作
+        vaptchaObj.listen('pass', function () {
+            var serverToken = vaptchaObj.getServerToken();
+            if (serverToken.token === '') {
+                vaptchaObj.reset();
+                ipp = false;
+            } else {
+                ipp = true;
+            }
+        })
+    })
+
+    function loc() {
+        if(!ipp) {
+            swal.fire(
+                '警告',
+                '请先完成验证码',
+                'warning'
+            )
+        }else{
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function ($) {
+                if (this.readyState == 4 && this.status == 200) {
+                    if (reg_ajax(this.responseText) == "yes") {
+                        swal.fire(
+                            '成功',
+                            '登录成功',
+                            'success'
+                        ).then(() => {
+                            location.replace('/');
+                        });
+                    }else if(reg_ajax(this.responseText) == "not"){
+                        swal.fire(
+                            '错误',
+                            '用户名或密码错误',
+                            'error'
+                        )
+                        obj.reset();
+                        ipp = false;
+                    }else if(reg_ajax(this.responseText) == "has"){
+                        swal.fire(
+                            '错误',
+                            '你已经登录过了',
+                            'error'
+                        ).then(() => {
+                            location.replace('/');
+                        });
+                    }
+                } else {
+                    swal.fire(
+                        '错误',
+                        '进行ajax请求时出错',
+                        'error'
+                    )
+                    obj.reset();
+                    ipp = false;
+                }
+            };
+            xhttp.open("POST", "/user.php/login/c/", true);
+            xhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+            xhttp.send(`username=${username}&password=${password}`);
+        }
+    }
+</script>

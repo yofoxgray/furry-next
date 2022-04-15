@@ -1,0 +1,28 @@
+<?php
+    if(Cookie::has('user') && !Cookie::has('user_md5')){
+        header('Location: /user.php/login/out');
+        exit();
+    }else if(Cookie::has('user') && md5(Cookie::get('user'))!=Cookie::get('user_md5')){
+        header('Location: /user.php/login/out');
+        exit();
+    }
+
+    if(!Cookie::has('diy_home-furry')) Cookie::set('diy_home-furry',7,9999999999);
+    if(!Cookie::has('diy_home-photo')) Cookie::set('diy_home-photo',3,9999999999);
+    if(!Cookie::has('diy_home-mei')) Cookie::set('diy_home-mei',2,9999999999);
+    if(!Cookie::has('first-dialog')) Cookie::set('first-dialog','true',9999999999);
+    if(!Cookie::has('diy_afdian')) Cookie::set('diy_afdian','true',9999999999);
+    if(!Cookie::has('temp-user')) Cookie::set('temp-user','t'.strval(rand(1, 999999)),9999999999);
+
+    $head_vaptcha_client_token = Db::table('system_list')->where('name','vaptcha_client_token')->value('value');
+    $head_siteTitle = Db::table('system_list')->where('name','site_name')->value('value');
+    $head_noticeDialogShow = Db::table('system_list')->where('name', 'notice_dialog_show')->value('value');
+    $head_noticeDialogContent = Db::table('system_list')->where('name', 'notice_dialog_content')->value('value');
+    $head_siteIcon = Db::table('system_list')->where('name', 'favicon_path')->value('value');
+
+    $head_login = Cookie::get('user');
+    $head_afdianx = Cookie::get('diy_afdian')==='true';
+    $head_tempUser = Cookie::get('temp-user');
+    $head_userId = Cookie::get('user');
+    $head_dontShowFirst = Cookie::get('first-dialog')=="false";
+?>
